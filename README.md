@@ -26,12 +26,12 @@ For example:
 
 ```
 function vnTax() {
-    return function vnTaxCalculate(income, options) {
+    return function vnTaxCalc(income, options) {
         return results;
     };
 
     //return true to support otherwise, this tax middleware should be ignored
-    vnTax.suports = function vnTaxSuports(countryCode, income, options) {
+    vnTaxCalc.suports = function vnTaxCalcSuports(countryCode, income, options) {
         return ['vn', 'vietnam'].indexOf(countryCode.toLowerCase()) > - 1;
     };
 };
@@ -48,7 +48,7 @@ How to use
 1.1. From the default taxer with built-in tax middles:
 
 ```
-const taxer = builtInTaxer();
+const taxer = defaultTaxer();
 // add more custom tax middleware function
 taxer.use(customTaxMiddlewareFn);
 ```
@@ -66,7 +66,7 @@ taxer.use(customTax());
 2. Use
 
 ```
-const results = taxer.calculate(countryCode, income, options);
+const results = taxer.calc(countryCode, income, options);
 console.log(results);
 ```
 
@@ -80,7 +80,7 @@ Let's keep it as minimal and lightweight as possible.
 How to contribute
 -----------------
 
-By writing custom tax plugins to create a good solid universal tax system in the world.
+By writing custom tax plugins to create a good solid universal tax system through out the world.
 
 
 License
