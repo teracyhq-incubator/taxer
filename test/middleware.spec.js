@@ -64,17 +64,23 @@ describe('Middleware', function () {
         it('should get result from supported fn', function () {
             const middleware = new Middleware();
 
-            function fnExec() {
-                return 'hello';
+            function fnMiddleware() {
+
+                function fnExec() {
+                    return 'hello';
+                };
+
+                fnExec.supports = function () {
+                    return 'hi' === arguments[0];
+                };
+
+                return fnExec;
             };
 
-            fnExec.supports = function () {
-                return true;
-            };
 
-            middleware.use(fnExec);
+            middleware.use(fnMiddleware());
 
-            const result = middleware.exec();
+            const result = middleware.exec('hi', 'hello', 'there');
 
             assert.equal('hello', result);
 

@@ -3,6 +3,12 @@ import { Middleware } from './middleware';
 
 export class Taxer extends Middleware {
     calc(countryCode, income, options) {
-        return this.exec.apply(this, [...arguments]);
+        const supportedFn = this.getSupportedFn(...arguments);
+
+        if (supportedFn) {
+            return supportedFn.apply(this, [income, options]);
+        } else {
+            throw new Error("no supported fn found");
+        }
     }
 }

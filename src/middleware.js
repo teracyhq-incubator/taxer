@@ -19,7 +19,7 @@ export class Middleware {
         this._stack.push(fn);
     }
 
-    exec() {
+    getSupportedFn() {
         let supportedFn;
 
         for (const fn of this._stack) {
@@ -28,6 +28,11 @@ export class Middleware {
                 break;
             }
         }
+        return supportedFn;
+    }
+
+    exec() {
+        const supportedFn = this.getSupportedFn(...arguments);
 
         if (supportedFn) {
             return supportedFn.apply(this, [...arguments]);

@@ -26,7 +26,7 @@ For example:
 
 ```
 function vnTax() {
-    return function vnTaxCalc(income, options) {
+    function vnTaxCalc(income, options) {
         return results;
     };
 
@@ -34,6 +34,8 @@ function vnTax() {
     vnTaxCalc.suports = function vnTaxCalcSuports(countryCode, income, options) {
         return ['vn', 'vietnam'].indexOf(countryCode.toLowerCase()) > - 1;
     };
+
+    return vnTaxCalc;
 };
 ```
 

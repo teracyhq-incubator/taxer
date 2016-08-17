@@ -8,5 +8,26 @@ describe('Taxer', function () {
             const taxer = new Taxer();
             assert.ok(typeof taxer.calc === 'function');
         });
+
+        it('should return result from supported middleware', function () {
+            const taxer = new Taxer();
+            function myTax() {
+                function myTaxCalc(income, options) {
+                    return { taxes: income };
+                };
+
+                myTaxCalc.supports = function (countryCode) {
+                    return countryCode === 'my';
+                };
+
+                return myTaxCalc;
+            };
+
+            taxer.use(myTax());
+
+            const result = taxer.calc('my', 1010);
+
+            assert.equal(1010, result.taxes);
+        });
     });
 });
