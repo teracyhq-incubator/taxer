@@ -29,5 +29,28 @@ describe('Taxer', function () {
 
             assert.equal(1010, result.taxes);
         });
+
+        it('should throw no supported fn found error', function () {
+            const taxer = new Taxer();
+            function myTax() {
+                function myTaxCalc(income, options) {
+                    return { taxes: income };
+                };
+
+                myTaxCalc.supports = function (countryCode) {
+                    return countryCode === 'my';
+                };
+
+                return myTaxCalc;
+            };
+
+            taxer.use(myTax());
+
+            try {
+                taxer.calc('vn', 2000000);
+            } catch (error) {
+                assert.equal('no supported fn found', error.message);
+            }
+        });
     });
 });

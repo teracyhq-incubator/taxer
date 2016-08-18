@@ -1,7 +1,7 @@
 tax.js
 ======
 
-universal tax calculation javascript library
+universal tax calculator javascript library
 
 Library Architecture
 --------------------
