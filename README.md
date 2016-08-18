@@ -9,7 +9,7 @@ universal tax calculator javascript library
 Library Architecture
 --------------------
 
-It's desinged with plugin mechanisum and minimalist in mind. By default:
+It's designed with plugin mechanism and minimalist in mind. By default:
 
 ```
 const taxer = new Taxer();
@@ -20,7 +20,7 @@ taxer.calc(countryCode, income, options);
 in which:
 
 taxMiddlewareFn should be a function accept (income, options) and return taxResult.
-Moroever, taxMiddlewareFn should have a required function property `supports` that returns a boolean value.
+Moreover, taxMiddlewareFn should have a required function property `supports` that returns a boolean value.
 If it's true, taxResult will be processed by that tax middleware.
 The taxResult will be returned from the first supported tax middleware.
 If no supported tax middleware, an Error will be thrown.
@@ -50,23 +50,23 @@ How to use
 
 1. Configure
 
-1.1. From the default taxer with built-in tax middles:
+    1.1. From the default taxer with built-in tax middles:
 
-```
-const taxer = defaultTaxer();
-// add more custom tax middleware function
-taxer.use(customTaxMiddlewareFn);
-```
+    ```
+    const taxer = defaultTaxer();
+    // add more custom tax middleware function
+    taxer.use(customTaxMiddlewareFn);
+    ```
 
-1.2. From scratch
+    1.2. From scratch
 
-```
-const taxer = new Taxer();
-taxer.use(vnTax());
-taxer.use(usaTax());
-taxer.use(sgTax());
-taxer.use(customTax());
-``` 
+    ```
+    const taxer = new Taxer();
+    taxer.use(vnTax());
+    taxer.use(usaTax());
+    taxer.use(sgTax());
+    taxer.use(customTax());
+    ``` 
 
 2. Use
 
@@ -85,7 +85,9 @@ Let's keep it as minimal and lightweight as possible.
 How to contribute
 -----------------
 
-By writing custom tax plugins to create a good solid universal tax system through out the world.
+By writing custom tax plugins to create a good solid universal tax system throughout the world.
+
+Follow Teracy workflow: http://dev.teracy.org/docs/workflow.html
 
 
 License
