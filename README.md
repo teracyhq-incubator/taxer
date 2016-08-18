@@ -82,6 +82,13 @@ How to develop
 This is the minimalist plugin architecture inspired by express.js and koa.js a lot.
 Let's keep it as minimal and lightweight as possible.
 
+Clone this repository and:
+
+```
+$ npm install
+$ npm run test
+```
+
 How to contribute
 -----------------
 
