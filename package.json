@@ -1,7 +1,7 @@
 {
   "name": "tax.js",
   "version": "0.1.0-SNAPSHOT",
-  "description": "universal tax calculation for all",
+  "description": "universal tax calculator for all",
   "main": "lib/index.js",
   "scripts": {
     "compile": "babel -d lib/ src/",
