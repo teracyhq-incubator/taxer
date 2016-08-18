@@ -50,7 +50,7 @@ How to use
 
 1. Configure
 
-    1.1. From the default taxer with built-in tax middles:
+    1.1. From the default taxer with built-in tax middleware:
 
     ```
     const taxer = defaultTaxer();
