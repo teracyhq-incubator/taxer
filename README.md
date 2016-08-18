@@ -97,6 +97,14 @@ By writing custom tax plugins to create a good solid universal tax system throug
 Follow Teracy workflow: http://dev.teracy.org/docs/workflow.html
 
 
+References
+----------
+
+These are related similar projects we should take a look:
+
+- https://github.com/rkh/income-tax
+
+
 License
 -------
 MIT license. See LICENSE file.
