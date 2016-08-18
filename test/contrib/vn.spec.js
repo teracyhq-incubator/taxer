@@ -88,7 +88,7 @@ describe('vnTax', function () {
 
         it('should support monthly payroll gross income <= 32m', function () {
             const vnTaxCalc = vnTax();
-            const taxInfo = vnTaxCalc(33800000);
+            const taxInfo = vnTaxCalc(31200000);
 
             assert.equal('payroll', taxInfo.type);
             assert.equal('gross', taxInfo.incomeType);
@@ -96,9 +96,9 @@ describe('vnTax', function () {
             assert.equal('monthly', taxInfo.period);
             assert.equal('VND', taxInfo.fromCurrency);
             assert.equal('VND', taxInfo.toCurrency);
-            assert.equal(33800000, taxInfo.grossIncome);
-            assert.equal( 5200000, taxInfo.taxes);
-            assert.equal(28600000, taxInfo.netIncome);
+            assert.equal(31200000, taxInfo.grossIncome);
+            assert.equal( 4590000, taxInfo.taxes);
+            assert.equal(26610000, taxInfo.netIncome);
         });
 
 
