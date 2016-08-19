@@ -1,7 +1,7 @@
-tax.js
-======
-[![Build Status](https://travis-ci.org/teracyhq/tax.js.svg?branch=develop)](https://travis-ci.org/teracyhq/tax.js)
-[![Coverage Status](https://coveralls.io/repos/github/teracyhq/tax.js/badge.svg?branch=develop)](https://coveralls.io/github/teracyhq/tax.js?branch=develop)
+taxer
+=====
+[![Build Status](https://travis-ci.org/teracyhq/taxer.svg?branch=develop)](https://travis-ci.org/teracyhq/taxer)
+[![Coverage Status](https://coveralls.io/repos/github/teracyhq/taxer/badge.svg?branch=develop)](https://coveralls.io/github/teracyhq/taxer?branch=develop)
 
 
 universal tax calculator javascript library

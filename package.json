@@ -1,5 +1,5 @@
 {
-  "name": "tax.js",
+  "name": "taxer",
   "version": "0.1.0-SNAPSHOT",
   "description": "universal tax calculator for all",
   "main": "lib/index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/teracyhq/tax.js.git"
+    "url": "git+https://github.com/teracyhq/taxer.git"
   },
   "keywords": [
     "universal",
@@ -21,9 +21,9 @@
   "author": "hoatle",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/teracyhq/tax.js/issues"
+    "url": "https://github.com/teracyhq/taxer/issues"
   },
-  "homepage": "https://github.com/teracyhq/tax.js#readme",
+  "homepage": "https://github.com/teracyhq/taxer#readme",
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
