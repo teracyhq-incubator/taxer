@@ -39,7 +39,7 @@ export class VnTaxer {
         }
     }
 
-    isMatched (countryCode, income, options) {
+    isMatched(countryCode, income, options) {
         if (typeof countryCode === 'string') {
             countryCode = countryCode.toLowerCase();
         }
