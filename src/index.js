@@ -1,11 +1,12 @@
 import { Taxer } from './core';
-import { vnTax } from './contrib';
+import { VnTaxer, SgTaxer } from './contrib';
 
 export function defaultTaxer() {
     //return the default configured taxer that use all core plugins
     const taxer = new Taxer();
     //configure default plugins
-    taxer.use(vnTax());
+    taxer.use(new VnTaxer());
+    taxer.use(new SgTaxer());
     return taxer;
 }
 

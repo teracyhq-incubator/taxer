@@ -1,3 +1,5 @@
+import { ProgressiveTaxer } from '../core';
+import { pick } from '../core/util';
 
 
 const defaultOptions = {
@@ -11,78 +13,37 @@ const defaultOptions = {
 };
 
 
-const FIVE_PERCENT = 5/100;
-const TEN_PERCENT = 10/100;
-const FIFTEEN_PERCENT = 15/100;
-const TWENTY_PERCENT = 20/100;
-const TWENTY_FIVE_PERCENT = 25/100;
-const THIRTY_PERCENT = 30/100;
-const THIRTY_FIVE_PERCENT = 35/100;
+const payrollMonthlyBrackets = {
+    0.05: [0, 5000000],
+    0.1 : [5000000, 10000000],
+    0.15: [10000000, 18000000],
+    0.2 : [18000000, 32000000],
+    0.25: [32000000, 52000000],
+    0.3 : [52000000, 80000000],
+    0.35: [80000000, ]
+};
 
-function monthlyPayrollIncomTax(income) {
-  if (income <= 5000000) {
-    return income * FIVE_PERCENT;
-  } else if (income <= 10000000) {
-    return  income * TEN_PERCENT - 250000;
-  } else if (income <= 18000000) {
-    return income * FIFTEEN_PERCENT - 750000;
-  } else if (income <= 32000000) {
-    return  income * TWENTY_PERCENT - 1650000;
-  } else if (income <= 52000000) {
-    return income * TWENTY_FIVE_PERCENT - 3250000;
-  } else if (income <= 80000000) {
-    return income * THIRTY_PERCENT - 5850000;
-  } else {
-    return income * THIRTY_FIVE_PERCENT - 9850000;
-  }
-}
+let payrollMonthlyProgressiveTaxer;
 
 
-function vnTaxCalcPayroll(income, options) {
-    if (options.incomeType === 'net') {
-
-    } else {
-        //gross
-        if (options.period === 'yearly') {
-
-        } else {
-            // monthly
-            const taxes = monthlyPayrollIncomTax(income);
-
-            return {
-                type: options.type,
-                incomeType: options.incomeType,
-                taxYear: options.taxYear,
-                period: options.period,
-                fromCurrency: options.fromCurrency,
-                toCurrency: options.toCurrency,
-                exchangeRate: options.exchangeRate,
-                grossIncome: income,
-                netIncome: income - taxes,
-                taxes: taxes
-            }
-        }
+export class VnTaxer {
+    constructor(options={}) {
+        this.ProgressiveTaxer = options.ProgressiveTaxer || ProgressiveTaxer;
     }
-}
 
-export function vnTax() {
-
-    function vnTaxCalc(income, options) {
-        options = Object.assign({}, defaultOptions, options);
-        if (options.type === 'payroll') {
-            return vnTaxCalcPayroll(income, options);
+    calc(income, options={}) {
+        let taxInfo = Object.assign({}, defaultOptions, pick(options, ...Reflect.ownKeys(defaultOptions)));
+        //lazy load
+        if (!payrollMonthlyProgressiveTaxer) {
+            payrollMonthlyProgressiveTaxer = new this.ProgressiveTaxer(payrollMonthlyBrackets);
         }
-        //TODO(hoatle):
-        //process the input and return the tax info
-        // ie: return taxInfo(result);
-    };
+        return Object.assign(taxInfo, payrollMonthlyProgressiveTaxer.calc(income));
+    }
 
-    vnTaxCalc.supports = function (countryCode, income, options) {
+    isMatched (countryCode, income, options) {
         if (typeof countryCode === 'string') {
             countryCode = countryCode.toLowerCase();
         }
         return ['vn', 'vnm', 704, 'vietnam', 'viet nam'].indexOf(countryCode) > -1;
-    };
-
-    return vnTaxCalc;
+    }
 }

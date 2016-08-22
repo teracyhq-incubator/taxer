@@ -13,33 +13,39 @@ It's designed with plugin mechanism and minimalist in mind. By default:
 
 ```
 const taxer = new Taxer();
-taxer.use(taxMiddlewareFn);
-taxer.calc(countryCode, income, options);
+taxer.use(new CustomTaxer());
+const taxInfo = taxer.calc(countryCode, income, options);
 ```
 
 in which:
 
-taxMiddlewareFn should be a function accept (income, options) and return taxResult.
-Moreover, taxMiddlewareFn should have a required function property `supports` that returns a boolean value.
-If it's true, taxResult will be processed by that tax middleware.
-The taxResult will be returned from the first supported tax middleware.
-If no supported tax middleware, an Error will be thrown.
+CustomTaxer should be a class which has:
+- isMatched(countryCode, taxableIncome, options) method: to be hooked up if it is the first to return true.
+- calc(taxableIncome, options) method: the taxInfo is calculated and returned.
+
+If no matched taxer middleware, an error will be thrown.
 
 For example:
 
-```
-function vnTax() {
-    function vnTaxCalc(income, options) {
-        return results;
-    };
+```js
 
-    //return true to support otherwise, this tax middleware should be ignored
-    vnTaxCalc.suports = function vnTaxCalcSuports(countryCode, income, options) {
-        return ['vn', 'vietnam'].indexOf(countryCode.toLowerCase()) > - 1;
-    };
+export class VnTaxer {
+    constructor() {
+    }
 
-    return vnTaxCalc;
-};
+    calc(taxableIncome, options={}) {
+        return {
+            taxableIncome: taxableIncome
+        }
+    }
+
+    isMatched (countryCode, income, options) {
+        if (typeof countryCode === 'string') {
+            countryCode = countryCode.toLowerCase();
+        }
+        return ['vn', 'vnm', 704, 'vietnam', 'viet nam'].indexOf(countryCode) > -1;
+    }
+}
 ```
 
 That's how the library architecture works.
@@ -55,24 +61,24 @@ How to use
     ```
     const taxer = defaultTaxer();
     // add more custom tax middleware function
-    taxer.use(customTaxMiddlewareFn);
+    taxer.use(customTaxer());
     ```
 
     1.2. From scratch
 
     ```
     const taxer = new Taxer();
-    taxer.use(vnTax());
-    taxer.use(usaTax());
-    taxer.use(sgTax());
-    taxer.use(customTax());
+    taxer.use(VnTaxer());
+    taxer.use(UsaTaxer());
+    taxer.use(SgTaxer());
+    taxer.use(customTaxer());
     ``` 
 
 2. Use
 
 ```
-const results = taxer.calc(countryCode, income, options);
-console.log(results);
+const taxInfo = taxer.calc(countryCode, income, options);
+console.log(taxInfo);
 ```
 
 
@@ -103,6 +109,8 @@ References
 These are related similar projects we should take a look:
 
 - https://github.com/rkh/income-tax
+
+- https://www.npmjs.com/package/uk-income-tax
 
 
 License
