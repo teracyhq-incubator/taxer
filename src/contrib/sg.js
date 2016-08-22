@@ -1,8 +1,7 @@
 
 export class SgTaxer {
 
-    constructor(options) {
-        this._options = options;
+    constructor() {
     }
 
     isMatched(countryCode, income, options) {
