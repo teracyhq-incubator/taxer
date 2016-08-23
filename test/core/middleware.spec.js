@@ -21,81 +21,81 @@ describe('Middleware', () => {
 
 
     describe('#use', () => {
-        it('should have 1 used mw in stack', () => {
+        it('should have 1 used executor in stack', () => {
             const middleware = new Middleware();
       
-            class MyExec {
+            class MyExector {
 
             }
 
-            const myExec = new MyExec();
-            middleware.use(myExec);
+            const myExector = new MyExector();
+            middleware.use(myExector);
 
             assert.equal(1, middleware.stack.length);
-            assert.equal(myExec, middleware.stack[0]);
+            assert.equal(myExector, middleware.stack[0]);
         });
 
-        it('should throw with used mw', () => {
+        it('should throw with used executor', () => {
             const middleware = new Middleware();
 
-            class MyExec {
+            class MyExector {
 
             }
 
-            const myExec = new MyExec();
-            middleware.use(myExec);
+            const myExector = new MyExector();
+            middleware.use(myExector);
             assert.throws(() => {
-                middleware.use(myExec);
-            }, /middeware: MyExec is already in use/);
+                middleware.use(myExector);
+            }, /MyExector is already in use/);
 
 
             assert.equal(1, middleware.stack.length);
-            assert.equal(myExec, middleware.stack[0]);
+            assert.equal(myExector, middleware.stack[0]);
         });
     });
 
-    describe('#findMatchedMw', () => {
-        it('should return a matched mw', () => {
-            class MyMw1 {
+    describe('#findMatchedExector', () => {
+        it('should return a matched executor', () => {
+            class MyExecutor1 {
                 isMatched() {
                     return arguments[0] === 'my1';
                 }
             }
 
-            class MyMw2 {
+            class MyExecutor2 {
                 isMatched(name) {
                     return name === 'my2';
                 }
             }
 
             const middeware = new Middleware();
-            middeware.use(new MyMw1()).use(new MyMw2());
+            middeware.use(new MyExecutor1()).use(new MyExecutor2());
 
-            const foundMy1 = middeware.findMatchedMw('my1', 'hello');
-            const foundMy2 = middeware.findMatchedMw('my2', 'hi');
+            const foundMy1 = middeware.findMatchedExector('my1', 'hello');
+            const foundMy2 = middeware.findMatchedExector('my2', 'hi');
 
-            assert.equal(foundMy1.constructor.name, 'MyMw1');
-            assert.equal(foundMy2.constructor.name, 'MyMw2');
+            assert.equal(foundMy1.constructor.name, 'MyExecutor1');
+            assert.equal(foundMy2.constructor.name, 'MyExecutor2');
         });
 
-        it('should not return a matched mw', () => {
-            class MyMw1 {
+        it('should not return a matched executor', () => {
+            class MyExecutor1 {
                 isMatched() {
                     return arguments[0] === 'my1';
                 }
             }
 
-            class MyMw2 {
+            class MyExecutor2 {
                 isMatched(name) {
                     return name === 'my2';
                 }
             }
 
             const middeware = new Middleware();
-            middeware.use(new MyMw1()).use(new MyMw2());
+            middeware.use(new MyExecutor1()).use(new MyExecutor2());
 
-            const foundMy1 = middeware.findMatchedMw('my3', 'hello');
-            const foundMy2 = middeware.findMatchedMw('my4', 'hi');
+            const foundMy1 = middeware.findMatchedExector('my3', 'hello');
+            const foundMy2 = middeware.findMatchedExector('my4', 'hi');
 
             assert.equal(foundMy1, undefined);
             assert.equal(foundMy2, undefined);
@@ -103,18 +103,18 @@ describe('Middleware', () => {
     });
 
     describe('#exec', () => {
-        it('should throw no matched mw found error on empty stack', function () {
+        it('should throw no matched executor found error on empty stack', function () {
             const middleware = new Middleware();
 
             assert.throws(() => {
                 middleware.exec();
-            }, /no matched mw found/);
+            }, /no matched exector found/);
         });
 
-        it('should get result from matched mw', function () {
+        it('should get result from matched executor', function () {
             const middleware = new Middleware();
 
-            class MyMiddleware {
+            class MyExector {
                 isMatched() {
                     return 'hi' === arguments[0];
                 }
@@ -125,7 +125,7 @@ describe('Middleware', () => {
             }
 
 
-            middleware.use(new MyMiddleware());
+            middleware.use(new MyExector());
 
             const result = middleware.exec('hi', 'hello', 'there');
 
@@ -133,10 +133,10 @@ describe('Middleware', () => {
 
         });
 
-        it('should throw no matched mw found error on the registered stack', function () {
+        it('should throw no matched executor found error on the registered stack', function () {
             const middleware = new Middleware();
 
-            class MyMiddleware {
+            class MyExector {
                 isMatched() {
                     return false;
                 }
@@ -146,11 +146,11 @@ describe('Middleware', () => {
                 }
             }
 
-            middleware.use(new MyMiddleware());
+            middleware.use(new MyExector());
 
             assert.throws(() => {
                 middleware.exec('hi', 'there');
-            }, /no matched mw found/);
+            }, /no matched exector found/);
         });
     });
 

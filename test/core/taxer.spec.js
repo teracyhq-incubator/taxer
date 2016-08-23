@@ -4,7 +4,7 @@ import { Taxer } from '../../src/core/taxer';
 
 describe('Taxer', () => {
     describe('#calc', () => {
-        it('should have #calc function', () => {
+        it('should be function', () => {
             assert.ok(typeof Taxer.prototype.calc === 'function');
         });
 
@@ -45,7 +45,7 @@ describe('Taxer', () => {
 
             assert.throws(() => {
                 taxer.calc('vn', 2000000);
-            }, /no matched taxer found/);
+            }, /no matched calctor found/);
         });
     });
 });
