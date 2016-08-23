@@ -1,5 +1,5 @@
 
-export class SgTaxer {
+export class SgCalctor {
 
     constructor() {
     }

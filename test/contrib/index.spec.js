@@ -1,12 +1,12 @@
 import * as assert from 'assert';
 
-import { VnTaxer, SgTaxer } from '../../src/contrib';
+import { VnCalctor, SgCalctor } from '../../src/contrib';
 
 describe('contrib/index', function () {
-    it('should export VnTaxer', function () {
-        assert.ok(VnTaxer);
+    it('should export VnCalctor', function () {
+        assert.ok(VnCalctor);
     });
-    it('should export SgTaxer', function () {
-        assert.ok(SgTaxer);
+    it('should export SgCalctor', function () {
+        assert.ok(SgCalctor);
     });
 });

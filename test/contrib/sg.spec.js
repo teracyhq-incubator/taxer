@@ -1,16 +1,16 @@
-import * as assert from "assert";
+import * as assert from 'assert';
 
-import { SgTaxer } from '../../src/contrib/sg';
+import { SgCalctor } from '../../src/contrib/sg';
 
 
-describe('SgTaxer', () => {
-    describe('#constructor', () => {
-        const sgTaxer = new SgTaxer();
+describe('SgCalctor', () => {
+    it('should be a class', () => {
+        const sgTaxer = new SgCalctor();
     });
 
     describe('#isMatched', () => {
         it('should support Singapore by country codes', () => {
-            const sgTaxer = new SgTaxer();
+            const sgTaxer = new SgCalctor();
             assert.ok(sgTaxer.isMatched('sg'));
             assert.ok(sgTaxer.isMatched('SG'));
             assert.ok(sgTaxer.isMatched('sgp'));

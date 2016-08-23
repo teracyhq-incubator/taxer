@@ -44,7 +44,7 @@ describe('util', () => {
                 0.3: [20001, ],
                 0.2: [10001, 20000],
                 0.1: [1, 10000]
-            }
+            };
 
             let newObj = {};
             for (let [key, value] of reversedObjectEntries(obj)) {

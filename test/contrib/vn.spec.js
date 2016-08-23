@@ -1,12 +1,12 @@
 import * as assert from 'assert';
 
-import { VnTaxer } from '../../src/contrib/vn';
+import { VnCalctor } from '../../src/contrib/vn';
 
-describe('VnTaxer', () => {
+describe('VnCalctor', () => {
 
     describe('#isMatched', () => {
         it('should support Vietnam by country codes', () => {
-            const vnTaxer = new VnTaxer();
+            const vnTaxer = new VnCalctor();
             assert.ok(vnTaxer.isMatched('vn'));
             assert.ok(vnTaxer.isMatched('VN'));
             assert.ok(vnTaxer.isMatched('vnm'));
@@ -21,7 +21,7 @@ describe('VnTaxer', () => {
 
     describe('#calc', () => {
         it('should support monthly payroll gross income', () => {
-            const vnTaxer = new VnTaxer();
+            const vnTaxer = new VnCalctor();
             const taxInfo = vnTaxer.calc(31200000);
 
             assert.equal(taxInfo.type, 'payroll');

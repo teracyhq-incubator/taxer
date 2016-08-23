@@ -23,20 +23,15 @@ const payrollMonthlyBrackets = {
     0.35: [80000000, ]
 };
 
-let payrollMonthlyProgressiveTaxer;
+let payrollMonthlyProgressiveTaxer = new ProgressiveTaxer(payrollMonthlyBrackets);
 
 
-export class VnTaxer {
-    constructor(options={}) {
-        this.ProgressiveTaxer = options.ProgressiveTaxer || ProgressiveTaxer;
+export class VnCalctor {
+    constructor() {
     }
 
     calc(income, options={}) {
         let taxInfo = Object.assign({}, defaultOptions, pick(options, ...Reflect.ownKeys(defaultOptions)));
-        //lazy load
-        if (!payrollMonthlyProgressiveTaxer) {
-            payrollMonthlyProgressiveTaxer = new this.ProgressiveTaxer(payrollMonthlyBrackets);
-        }
         return Object.assign(taxInfo, payrollMonthlyProgressiveTaxer.calc(income));
     }
 

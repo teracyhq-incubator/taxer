@@ -11,15 +11,15 @@ Library Architecture
 
 It's designed with plugin mechanism and minimalist in mind. By default:
 
-```
+```js
 const taxer = new Taxer();
-taxer.use(new CustomTaxer());
+taxer.use(new CustomCalctor());
 const taxInfo = taxer.calc(countryCode, income, options);
 ```
 
 in which:
 
-CustomTaxer should be a class which has:
+CustomCalctor should be a class implements Calctor interface which has:
 - isMatched(countryCode, taxableIncome, options) method: to be hooked up if it is the first to return true.
 - calc(taxableIncome, options) method: the taxInfo is calculated and returned.
 
@@ -29,7 +29,7 @@ For example:
 
 ```js
 
-export class VnTaxer {
+export class VnCalctor {
     constructor() {
     }
 
@@ -60,18 +60,18 @@ How to use
 
     ```
     const taxer = defaultTaxer();
-    // add more custom tax middleware function
-    taxer.use(customTaxer());
+    // add more custom calculator
+    taxer.use(new CustomCalctor(options));
     ```
 
     1.2. From scratch
 
     ```
     const taxer = new Taxer();
-    taxer.use(VnTaxer());
-    taxer.use(UsaTaxer());
-    taxer.use(SgTaxer());
-    taxer.use(customTaxer());
+    taxer.use(VnCalctor());
+    taxer.use(UsaCalctor());
+    taxer.use(SgCalctor());
+    taxer.use(CustomCalctor(options));
     ``` 
 
 2. Use
