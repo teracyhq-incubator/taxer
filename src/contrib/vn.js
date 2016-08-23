@@ -1,16 +1,4 @@
-import { ProgressiveTaxer } from '../core';
-import { pick } from '../core/util';
-
-
-const defaultOptions = {
-    type: 'payroll', // or ''
-    incomeType: 'gross', // or 'net'
-    taxYear: 2016,
-    period: 'monthly' , // or yearly
-    fromCurrency: 'VND',
-    toCurrency: 'VND',
-    exchangeRate: 1 // from currency/ to currency
-};
+import { Calctor, ProgressiveTaxer } from '../core';
 
 
 const payrollMonthlyBrackets = {
@@ -23,22 +11,25 @@ const payrollMonthlyBrackets = {
     0.35: [80000000, ]
 };
 
-let payrollMonthlyProgressiveTaxer = new ProgressiveTaxer(payrollMonthlyBrackets);
+const payrollMonthlyProgressiveTaxer = new ProgressiveTaxer(payrollMonthlyBrackets);
 
 
-export class VnCalctor {
-    constructor() {
+export class VnCalctor extends Calctor {
+
+    get defaultOptions() {
+        return Object.assign({}, super.defaultOptions, {
+            fromCurrency: 'VND',
+            toCurrency: 'VND'
+        });
+    }
+
+    get supportedCountryCodes() {
+        return ['vn', 'vnm', 704, 'vietnam', 'viet nam'];
     }
 
     calc(income, options={}) {
-        let taxInfo = Object.assign({}, defaultOptions, pick(options, ...Reflect.ownKeys(defaultOptions)));
-        return Object.assign(taxInfo, payrollMonthlyProgressiveTaxer.calc(income));
+        super.calc(income, options);
+        return this.processedTaxInfo(payrollMonthlyProgressiveTaxer.calc(income));
     }
 
-    isMatched(countryCode, income, options) {
-        if (typeof countryCode === 'string') {
-            countryCode = countryCode.toLowerCase();
-        }
-        return ['vn', 'vnm', 704, 'vietnam', 'viet nam'].indexOf(countryCode) > -1;
-    }
 }

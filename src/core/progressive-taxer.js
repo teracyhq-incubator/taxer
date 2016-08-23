@@ -77,25 +77,25 @@ export class ProgressiveTaxer {
         };
 
         const result = reduce(objectEntries(this._brackets), (acc, curr) => {
-            if (taxableIncome === acc.calulatedAmount) {
+            if (taxableIncome === acc.calculatedAmount) {
                 return acc;
             }
-            const [rate, [currStart, currEnd = Infinity]] = curr;
+            const [rate, [, currEnd = Infinity]] = curr;
             if (taxableIncome > currEnd) {
-                const currTaxableIncome = financialRound(currEnd - acc.calulatedAmount);
+                const currTaxableIncome = financialRound(currEnd - acc.calculatedAmount);
                 const currTaxAmount = financialRound(currTaxableIncome * rate);
-                acc.taxAmount += currTaxAmount
-                acc.calulatedAmount += currTaxableIncome;
+                acc.taxAmount += currTaxAmount;
+                acc.calculatedAmount += currTaxableIncome;
                 acc.taxBand.push({
                     taxRate: +rate,
                     taxableIncome: currTaxableIncome,
                     taxAmount: currTaxAmount
                 });
             } else {
-                const currTaxableIncome = financialRound(taxableIncome - acc.calulatedAmount);
+                const currTaxableIncome = financialRound(taxableIncome - acc.calculatedAmount);
                 const currTaxAmount = financialRound(currTaxableIncome * rate);
                 acc.taxAmount += currTaxAmount;
-                acc.calulatedAmount += currTaxableIncome;
+                acc.calculatedAmount += currTaxableIncome;
                 acc.taxBand.push({
                     taxRate: +rate,
                     taxableIncome: currTaxableIncome,
@@ -105,7 +105,7 @@ export class ProgressiveTaxer {
             return acc;
         }, {
             taxAmount: 0,
-            calulatedAmount: 0,
+            calculatedAmount: 0,
             taxBand: []
         });
 

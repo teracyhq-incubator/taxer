@@ -11,41 +11,42 @@ export class Middleware {
 
     //TODO(hoatle): add priority option?
     //TODO: add async support (like koa.js)? if so, maybe better to use koa.js?
-    use(mw) {
-        if (this._isUsed(mw)) {
-            throw `middeware: ${mw.constructor.name} is already in use`;
+    //TODO(hoatle): make sure it's executor (isMatched + exec methods available)
+    use(exector) {
+        if (this._isUsed(exector)) {
+            throw `${exector.constructor.name} is already in use`;
         }
-        this._stack.push(mw);
+        this._stack.push(exector);
         return this;
     }
 
-    _isUsed(mw) {
+    _isUsed(exector) {
         const usedArr = this._stack.filter((curr) => {
-            return curr.constructor.name === mw.constructor.name;
+            return curr.constructor.name === exector.constructor.name;
         });
 
         return usedArr.length > 0;
     }
 
-    findMatchedMw() {
-        let matchedMw;
+    findMatchedExector() {
+        let matchedExector;
 
-        for (const mw of this._stack) {
-            if (mw.isMatched(...arguments)) {
-                matchedMw = mw;
+        for (const exector of this._stack) {
+            if (exector.isMatched(...arguments)) {
+                matchedExector = exector;
                 break;
             }
         }
-        return matchedMw;
+        return matchedExector;
     }
 
     exec() {
-        const matchedMw = this.findMatchedMw(...arguments);
+        const matchedExector = this.findMatchedExector(...arguments);
 
-        if (matchedMw) {
-            return matchedMw.exec(this, ...arguments);
+        if (matchedExector) {
+            return matchedExector.exec(this, ...arguments);
         } else {
-            throw "no matched mw found";
+            throw 'no matched exector found';
         }
     }
 }
