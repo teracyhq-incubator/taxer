@@ -31,5 +31,8 @@
     "coveralls": "^2.11.12",
     "isparta": "^4.0.0",
     "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "camel-case": "^3.0.0"
   }
 }

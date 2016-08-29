@@ -23,10 +23,11 @@ describe('VnCalctor', () => {
         it('should support monthly payroll gross income', () => {
             const vnTaxer = new VnCalctor();
             const taxInfo = vnTaxer.calc(31200000);
-
+            const currentYear = new Date().getFullYear();
+            const taxYear = (currentYear - 1) + '_' + currentYear;
             assert.equal(taxInfo.type, 'payroll');
             assert.equal(taxInfo.incomeType, 'gross');
-            assert.equal(taxInfo.taxYear, 2016);
+            assert.equal(taxInfo.taxYear, taxYear);
             assert.equal(taxInfo.period, 'monthly');
             assert.equal(taxInfo.fromCurrency, 'VND');
             assert.equal(taxInfo.toCurrency, 'VND');

@@ -27,9 +27,9 @@ export class VnCalctor extends Calctor {
         return ['vn', 'vnm', 704, 'vietnam', 'viet nam'];
     }
 
-    calc(income, options={}) {
-        super.calc(income, options);
-        return this.processedTaxInfo(payrollMonthlyProgressiveTaxer.calc(income));
+
+    doMonthlyGrossPayrollCalc(income, options) {
+        return payrollMonthlyProgressiveTaxer.calc(income);
     }
 
 }

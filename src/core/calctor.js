@@ -1,10 +1,14 @@
+import camelCase from 'camel-case';
+
 import { Exector } from './exector';
-import { pick } from './util';
+import { filter, pick } from './util';
+
+const currentYear = new Date().getFullYear();
 
 const defaultOptions = {
     type: 'payroll',
     incomeType: 'gross',
-    taxYear: new Date().getFullYear(),
+    taxYear: (currentYear - 1)  + '_' + currentYear,
     period: 'monthly',
     fromCurrency: null,
     toCurrency: null,
@@ -14,7 +18,7 @@ const defaultOptions = {
 /**
  * The base class for easier implementation of Calctorable interface to be used with the @{Taxer} class.
  *
- * interface TaxBand {
+ * interface Tax {
  *   taxRate: Number
  *   taxableIncome: Number
  *   taxAmount: Number
@@ -29,7 +33,7 @@ const defaultOptions = {
  *   taxableIncome: Number
  *   taxAmount: Number
  *   netIncome: Number
- *   taxBand: [<TaxBand>]
+ *   taxBand: [<Tax>]
  * }
  *
  *
@@ -116,9 +120,42 @@ export class Calctor extends Exector {
         return Object.assign(this.taxInfo, taxInfo);
     }
 
+    /**
+     * Default calc hooks definitions.
+     * subclasses could override this to define more hooks
+     */
+    getCalcHooks(income, options) {
+        // define the hook methods of pattern for subclass to implement
+        // 0. period+IncomeType+Type+taxYear+Calc(income, options)
+        // 1. period+IncomeType+Type+Calc(income, options)
+        // 2. incomeType+Type+Calc(income, options)
+        // 3. type+Calc(income, options)
+        // 4. doCalc(income, options)
+        // 5. throw 'Not Implemented'
+        const pittc = camelCase(['do', options.period, options.incomeType, options.type, options.taxYear, 'Calc'].join(' '));
+        const pitc = camelCase(['do', options.period, options.incomeType, options.type, 'Calc'].join(' '));
+        const itc = camelCase(['do', options.incomeType, options.type, 'Calc'].join(' '));
+        const tc = camelCase(['do', options.type, 'Calc'].join(' '));
 
-    calc(income, options) {
-        this.processedIncome(income);
-        this.processedOptions(options);
+        return [pittc, pitc, itc, tc, 'doCalc'];
     }
+
+    calc(income, options={}) {
+        income = this.processedIncome(income);
+        options = this.processedOptions(options);
+
+        const matchedHooks = filter(this.getCalcHooks(income, options), method => {
+            if (typeof this[method] === 'function') {
+                throw 'break';
+            };
+            return false;
+        });
+
+        if (matchedHooks.length > 0) {
+            return this.processedTaxInfo(this[matchedHooks[0]](income, options));
+        } else {
+            throw 'Not Implemented';
+        }
+    }
+
 }
