@@ -1,0 +1,10 @@
+version: '2'
+services:
+  test:
+    build: .
+    command: npm run test
+    environment:
+      NODE_ENV: development
+    volumes:
+      - .:/usr/src
+      - /usr/src/node_modules
