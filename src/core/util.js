@@ -70,7 +70,7 @@ export function reduce(iterable, combiner, initialValue) {
  * @param predicate
  * @return an array
  */
-export function filter(iterable, predicate) {
+export function filter(iterable, predicate, pushResultOnBreak=true) {
     let result = [];
     for (let x of iterable) {
         try {
@@ -79,6 +79,9 @@ export function filter(iterable, predicate) {
             }
         } catch (ex) {
             //allow predicate breaking the loop
+            if (pushResultOnBreak) {
+                result.push(x);
+            }
             break;
         }
     }
@@ -113,3 +116,4 @@ export function pick(obj, ...fields) {
 export function financialRound(number) {
     return Math.round(number * 100) / 100;
 }
+

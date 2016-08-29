@@ -11,10 +11,12 @@ describe('Calctor', () => {
     });
 
     it('should have defaultOptions', () => {
+        const currentYear = new Date().getFullYear();
+
         assert.deepEqual(new Calctor().defaultOptions, {
             type: 'payroll',
             incomeType: 'gross',
-            taxYear: new Date().getFullYear(),
+            taxYear: (currentYear - 1) + '_' + currentYear,
             period: 'monthly',
             fromCurrency: null,
             toCurrency: null,
@@ -35,6 +37,25 @@ describe('Calctor', () => {
     describe('#isMatched', () => {
         it('should be a method', () => {
             assert.ok(typeof Calctor.prototype.isMatched === 'function');
+        });
+
+        it('should invoke isCombinationMatched', () => {
+            class MyCalctor extends Calctor {
+                isIncomeMatched() {
+                    return false;
+                }
+
+                isOptionsMatched() {
+                    return false;
+                }
+
+                isCombinationMatched() {
+                    return true;
+                }
+            }
+
+            const myCalctor = new MyCalctor();
+            assert.equal(myCalctor.isMatched('vn'), true);
         });
     });
 
@@ -104,6 +125,13 @@ describe('Calctor', () => {
     describe('#calc', () => {
         it('should be a method', () => {
             assert.ok(typeof Calctor.prototype.calc === 'function');
+        });
+
+        it('should throw not implemented exception', () => {
+            const myCalctor = new Calctor();
+            assert.throws(() => {
+                myCalctor.calc(1000);
+            }, /Not Implemented/)
         });
     });
 

@@ -140,7 +140,7 @@ describe('util', () => {
 
         });
 
-        it('should break the loop', () => {
+        it('should break the loop without pushing', () => {
              function* gen() {
                 yield 0;
                 yield 1;
@@ -150,6 +150,24 @@ describe('util', () => {
             
             const result = filter(gen(), value => {
                 if (value > 2) {
+                    throw 'break';
+                }
+                return true;
+            }, false);
+
+            assert.deepEqual(result, [0, 1, 2]);
+        });
+
+        it('should break the loop with pushing', () => {
+             function* gen() {
+                yield 0;
+                yield 1;
+                yield 2;
+                yield 3;
+            }
+
+            const result = filter(gen(), value => {
+                if (value > 1) {
                     throw 'break';
                 }
                 return true;
