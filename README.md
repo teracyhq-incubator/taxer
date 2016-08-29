@@ -23,7 +23,7 @@ CustomCalctor should be a class implements Calctor interface which has:
 - isMatched(countryCode, taxableIncome, options) method: to be hooked up if it is the first to return true.
 - calc(taxableIncome, options) method: the taxInfo is calculated and returned.
 
-If no matched taxer middleware, an error will be thrown.
+If no matched calculator, an error will be thrown.
 
 For example:
 
@@ -56,7 +56,7 @@ How to use
 
 1. Configure
 
-    1.1. From the default taxer with built-in tax middleware:
+    1.1. From the default taxer with built-in tax calculators:
 
     ```
     const taxer = defaultTaxer();
@@ -93,6 +93,12 @@ Clone this repository and:
 ```
 $ npm install
 $ npm run test
+```
+
+Or with Docker:
+
+```
+$ docker-compose up
 ```
 
 How to contribute
