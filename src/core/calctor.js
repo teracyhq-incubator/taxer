@@ -10,10 +10,31 @@ const defaultOptions = {
     incomeType: 'gross',
     taxYear: (currentYear - 1)  + '_' + currentYear,
     period: 'monthly',
-    fromCurrency: null,
-    toCurrency: null,
-    exchangeRate: 1
+    fromCurrency: undefined,
+    toCurrency: undefined,
+    exchangeRate: 1,
+    married: undefined,
+    children: 0,
+    jointStatement: undefined,
+    headOfHousehold: undefined,
+    age: undefined,
+    birthday: undefined,
+    gender: undefined,
+    disabled: undefined,
+    woundedFreedomFighter: undefined,
+    presumptive: undefined
+    //TODO(hoatle): add reductions = [{name: , value: }, ] here?
 };
+
+function getMainTaxYear(options) {
+    const taxYear = options.taxYear;
+    if (taxYear && taxYear.indexOf('_') > -1) {
+        const [start, end] = taxYear.split('_').map(el => +el);
+        return end - 1;
+    } else if (taxYear) {
+        return +taxYear;
+    }
+}
 
 /**
  * The base class for easier implementation of Calctorable interface to be used with the @{Taxer} class.
@@ -44,8 +65,16 @@ const defaultOptions = {
  */
 export class Calctor extends Exector {
 
+
+    get currency() {
+        throw 'Not Implemented'; //should be overriden by sub class
+    }
+
     get defaultOptions() {
-        return defaultOptions;
+        return Object.assign(defaultOptions, {
+            fromCurrency: this.currency,
+            toCurrency: this.currency
+        });
     }
 
     /**
@@ -107,6 +136,9 @@ export class Calctor extends Exector {
      */
     processedOptions(options) {
         this.options = Object.assign({}, this.defaultOptions, options);
+        Object.assign(this.options, {
+            mainTaxYear: getMainTaxYear(this.options)
+        });
         return this.options;
     }
 
@@ -127,17 +159,19 @@ export class Calctor extends Exector {
     getCalcHooks(income, options) {
         // define the hook methods of pattern for subclass to implement
         // 0. period+IncomeType+Type+taxYear+Calc(income, options)
-        // 1. period+IncomeType+Type+Calc(income, options)
-        // 2. incomeType+Type+Calc(income, options)
-        // 3. type+Calc(income, options)
-        // 4. doCalc(income, options)
-        // 5. throw 'Not Implemented'
+        // 1. period+IncomeType+Type+mainTaxYear+Calc(income, options);
+        // 2. period+IncomeType+Type+Calc(income, options)
+        // 3. incomeType+Type+Calc(income, options)
+        // 4. type+Calc(income, options)
+        // 5. doCalc(income, options)
+        // 6. throw 'Not Implemented'
         const pittc = camelCase(['do', options.period, options.incomeType, options.type, options.taxYear, 'Calc'].join(' '));
+        const pittmc = camelCase(['do', options.period, options.incomeType, options.type, getMainTaxYear(options), 'Calc'].join(' '));
         const pitc = camelCase(['do', options.period, options.incomeType, options.type, 'Calc'].join(' '));
         const itc = camelCase(['do', options.incomeType, options.type, 'Calc'].join(' '));
         const tc = camelCase(['do', options.type, 'Calc'].join(' '));
 
-        return [pittc, pitc, itc, tc, 'doCalc'];
+        return [pittc, pittmc, pitc, itc, tc, 'doCalc'];
     }
 
     calc(income, options={}) {

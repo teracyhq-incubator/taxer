@@ -1,13 +1,12 @@
 import * as assert from 'assert';
 
-import { VnCalctor } from '../../src/contrib/vn';
+import { VnCalctor } from '../../src/contrib/vn-calctor';
 
 describe('VnCalctor', () => {
 
     it('should define default currency', () => {
         const vnCalctor = new VnCalctor();
-        assert.equal(vnCalctor.defaultOptions.fromCurrency, 'VND');
-        assert.equal(vnCalctor.defaultOptions.toCurrency, 'VND');
+        assert.equal(vnCalctor.currency, 'VND');
     });
 
     it('should support Vietnam by country codes', () => {
