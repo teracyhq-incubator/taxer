@@ -4,7 +4,7 @@ taxer
 [![Coverage Status](https://coveralls.io/repos/github/teracyhq/taxer/badge.svg?branch=develop)](https://coveralls.io/github/teracyhq/taxer?branch=develop)
 
 
-universal tax calculator javascript library
+universal tax calculator javascript library to calculate all kinds of taxes through out the world.
 
 Library Architecture
 --------------------

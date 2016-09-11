@@ -10,17 +10,40 @@ describe('Calctor', () => {
         assert.ok(new Calctor() instanceof Exector);
     });
 
-    it('should have defaultOptions', () => {
-        const currentYear = new Date().getFullYear();
+    it('should throw not implemented error for get currency', () => {
+        assert.throws(() => {
+            const options = new Calctor().defaultOptions;
+        }, /Not Implemented/);
+    });
 
-        assert.deepEqual(new Calctor().defaultOptions, {
+    it('should have defaultOptions', () => {
+        class MyCalctor extends Calctor {
+            get currency() {
+                return 'MY';
+            }
+        }
+
+        const currentYear = new Date().getFullYear();
+        const taxYear = (currentYear - 1) + '_' + currentYear;
+
+        assert.deepEqual(new MyCalctor().defaultOptions, {
             type: 'payroll',
             incomeType: 'gross',
-            taxYear: (currentYear - 1) + '_' + currentYear,
+            taxYear: taxYear,
             period: 'monthly',
-            fromCurrency: null,
-            toCurrency: null,
-            exchangeRate: 1
+            fromCurrency: 'MY',
+            toCurrency: 'MY',
+            exchangeRate: 1,
+            married: undefined,
+            children: 0,
+            jointStatement: undefined,
+            headOfHousehold: undefined,
+            age: undefined,
+            birthday: undefined,
+            gender: undefined,
+            disabled: undefined,
+            woundedFreedomFighter: undefined,
+            presumptive: undefined
         });
     });
 
@@ -127,8 +150,20 @@ describe('Calctor', () => {
             assert.ok(typeof Calctor.prototype.calc === 'function');
         });
 
-        it('should throw not implemented exception', () => {
+        it('should throw not implemented exception for currency', () => {
             const myCalctor = new Calctor();
+            assert.throws(() => {
+                myCalctor.calc(1000);
+            }, /Not Implemented/)
+        });
+
+        it('should throw not implemented exception for calc', () => {
+            class MyCalctor extends Calctor {
+                currency() {
+                    return 'MY';
+                }
+            }
+            const myCalctor = new MyCalctor();
             assert.throws(() => {
                 myCalctor.calc(1000);
             }, /Not Implemented/)

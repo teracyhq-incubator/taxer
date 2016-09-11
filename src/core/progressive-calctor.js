@@ -6,7 +6,7 @@ import { objectEntries, reversedObjectEntries, map, reduce, filter, pick,
  *
  * For example:
  *
- * const progressiveTaxer = new ProgressiveTaxer({
+ * const progressiveCalctor = new ProgressiveCalctor({
  *     0.1: [1, 10000],
  *     0.2: [10001, 20000],
  *     0.3: [20001, ]
@@ -16,7 +16,7 @@ import { objectEntries, reversedObjectEntries, map, reduce, filter, pick,
  * - key: the percentage and
  * - value: an special array (look like range denotion) to denote start and ending amount range
  * 
- * const taxInfo = progressiveTaxer.calc(25000);
+ * const taxInfo = progressiveCalctor.calc(25000);
  * 
  * And the taxInfo should be like:
  *
@@ -40,10 +40,10 @@ import { objectEntries, reversedObjectEntries, map, reduce, filter, pick,
  * }
  *
  */
-export class ProgressiveTaxer {
+export class ProgressiveCalctor {
 
     constructor(brackets) {
-        ProgressiveTaxer.validate(brackets);
+        ProgressiveCalctor.validate(brackets);
         this._brackets = brackets;
     }
 
@@ -109,7 +109,6 @@ export class ProgressiveTaxer {
             taxBand: []
         });
 
-        //console.log(result);
         Object.assign(taxInfo, {
             netIncome: taxableIncome - result.taxAmount
         });

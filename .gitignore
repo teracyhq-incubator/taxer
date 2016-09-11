@@ -4,3 +4,9 @@ lib
 coverage
 .idea
 *.iml
+
+# generated from docker-compose up
+.babel.json
+.bash_history
+.v8flags*
+npm-debug.log
