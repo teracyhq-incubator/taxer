@@ -68,7 +68,7 @@ describe('ProgressiveCacltor', function () {
     describe('#calc', function () {
         it('should return taxInfo', function () {
             const brackets = {
-                0.1: [1, 10000],
+                0.1: [0, 10000],
                 0.2: [10000, 20000], 
                 0.3: [20000, ]
             };
@@ -182,7 +182,7 @@ describe('ProgressiveCacltor', function () {
             assert.equal(taxInfo.taxAmount, 0);
         });
 
-        it('should work with small number differences', function () {
+        it('should work with small number differences', () => {
             const brackets = {
                 0.1: [1, 10000],
                 0.2: [10000, 20000], 
@@ -208,6 +208,94 @@ describe('ProgressiveCacltor', function () {
                 taxAmount: 0.03
             }];
             assert.deepEqual(taxInfo.taxBand, expectedTaxBand);
+        });
+
+        it('should support net incomeType before Infinity range', () => {
+            const brackets = {
+                0.1: [0, 10000],
+                0.2: [10000, 20000], 
+                0.3: [20000, ]
+            };
+            const pTaxer = new ProgressiveCalctor(brackets);
+            const taxInfo = pTaxer.calc(16000, {
+                incomeType: 'net'
+            });
+            assert.equal(taxInfo.taxableIncome, 18750);
+            assert.equal(taxInfo.netIncome, 16000);
+            assert.equal(taxInfo.taxAmount, 2750);
+            assert.deepEqual(taxInfo.taxBand, [{
+                taxRate: 0.1,
+                taxableIncome: 10000,
+                taxAmount: 1000
+            }, {
+                taxRate: 0.2,
+                taxableIncome: 8750,
+                taxAmount: 1750
+            }]);
+        });
+
+        it('should support net incomeType until Infinity range', () => {
+            const brackets = {
+                0.1: [0, 10000],
+                0.2: [10000, 20000], 
+                0.3: [20000, ]
+            };
+            const pTaxer = new ProgressiveCalctor(brackets);
+            const taxInfo = pTaxer.calc(20500, {
+                incomeType: 'net'
+            });
+
+            assert.equal(taxInfo.taxableIncome, 25000);
+            assert.equal(taxInfo.netIncome, 20500);
+            assert.equal(taxInfo.taxAmount, 4500);
+            assert.deepEqual(taxInfo.taxBand, [{
+                taxRate: 0.1,
+                taxableIncome: 10000,
+                taxAmount: 1000
+            }, {
+                taxRate: 0.2,
+                taxableIncome: 10000,
+                taxAmount: 2000
+            }, {
+                taxRate: 0.3,
+                taxableIncome: 5000,
+                taxAmount: 1500
+            }]);
+        });
+
+        it('should support net incomeType with zero rate range', () => {
+            const thousand = 1000;
+
+            const brackets = {
+                0: [0, 20*thousand],
+                0.02: [20*thousand, (20+10)*thousand],
+                0.035: [30*thousand, (30+10)*thousand],
+                0.07: [40*thousand, (40+40)*thousand],
+                0.115: [80*thousand, (80+40)*thousand],
+                0.15: [120*thousand, (120+40)*thousand],
+                0.17: [160*thousand, (160+40)*thousand],
+                0.18: [200*thousand, (200+120)*thousand],
+                0.2: [320*thousand, ] 
+            };
+
+            const pCalctor = new ProgressiveCalctor(brackets);
+
+            const taxInfo = pCalctor.calc(30*thousand - 200, {
+                incomeType: 'net'
+            });
+
+            assert.equal(taxInfo.taxableIncome, 30*thousand);
+            assert.equal(taxInfo.netIncome, 29800);
+            assert.equal(taxInfo.taxAmount, 200);
+            assert.deepEqual(taxInfo.taxBand, [{
+                taxRate: 0,
+                taxableIncome: 20*thousand,
+                taxAmount: 0
+            }, {
+                taxRate: 0.02,
+                taxableIncome: 10000,
+                taxAmount: 200
+            }]);
         });
     });
 });

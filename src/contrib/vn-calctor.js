@@ -46,4 +46,12 @@ export class VnCalctor extends Calctor {
         return yearlyPayrollProgressiveCalctor.calc(income);
     }
 
+    doMonthlyNetPayrollCalc(income, options) {
+        return monthlyPayrollProgressiveCalctor.calc(income, options);
+    }
+
+    doYearlyNetPayrollCalc(income, options) {
+        return yearlyPayrollProgressiveCalctor.calc(income, options);
+    }
+
 }

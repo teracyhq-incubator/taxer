@@ -71,40 +71,48 @@ export class SgCalctor extends Calctor {
         return ['sg', 'sgp', 702, 'singapore'];
     }
 
-    _doMonthlyGrossPayrollCalc2012_2016(income, options) {
-        return monthlyPayrollProgressiveCalctor2012_2016.calc(income);
-    }
-
-    _doMonthlyGrossPayrollCalc2017_X(income, options) {
-        return monthlyPayrollProgressiveCalctor2017_x.calc(income);
-    }
-
     doMonthlyGrossPayrollCalc(income, options) {
         const mainTaxYear = this.options.mainTaxYear;
         if (2012 <= mainTaxYear && mainTaxYear <= 2016) {
-            return this._doMonthlyGrossPayrollCalc2012_2016(income, options);
+            return monthlyPayrollProgressiveCalctor2012_2016.calc(income, options);
         } else if (mainTaxYear >= 2017) {
-            return this._doMonthlyGrossPayrollCalc2017_X(income, options);
+            return monthlyPayrollProgressiveCalctor2017_x.calc(income, options);
         } else {
             throw 'Not Supported';
         }
-    }
-
-    _doYearlyGrossPayrollCalc2012_2016(income, options) {
-        return yearlyPayrollProgressiveCalctor2012_2016.calc(income);
-    }
-
-    _doYearlyGrossPayrollCalc2017_X(income, options) {
-        return yearlyPayrollProgressiveCalctor2017_x.calc(income);
     }
 
     doYearlyGrossPayrollCalc(income, options) {
         const mainTaxYear = this.options.mainTaxYear;
 
         if (2012 <= mainTaxYear && mainTaxYear <= 2016) {
-            return this._doYearlyGrossPayrollCalc2012_2016(income, options);
+            return yearlyPayrollProgressiveCalctor2012_2016.calc(income, options);
         } else if (mainTaxYear >= 2017) {
-            return this._doYearlyGrossPayrollCalc2017_X(income, options);
+            return yearlyPayrollProgressiveCalctor2017_x.calc(income, options);
+        } else {
+            throw 'Not Supported';
+        }
+    }
+
+    doMonthlyNetPayrollCalc(income, options) {
+        const mainTaxYear = this.options.mainTaxYear;
+
+        if (2012 <= mainTaxYear && mainTaxYear <= 2016) {
+            return monthlyPayrollProgressiveCalctor2012_2016.calc(income, options);
+        } else if (mainTaxYear >= 2017) {
+            return monthlyPayrollProgressiveCalctor2017_x.calc(income, options);
+        } else {
+            throw 'Not Supported';
+        }
+    }
+
+    doYearlyNetPayrollCalc(income, options) {
+        const mainTaxYear = this.options.mainTaxYear;
+
+        if (2012 <= mainTaxYear && mainTaxYear <= 2016) {
+            return yearlyPayrollProgressiveCalctor2012_2016.calc(income, options);
+        } else if (mainTaxYear >= 2017) {
+            return yearlyPayrollProgressiveCalctor2017_x.calc(income, options);
         } else {
             throw 'Not Supported';
         }

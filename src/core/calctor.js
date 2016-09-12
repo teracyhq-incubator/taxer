@@ -7,7 +7,7 @@ const currentYear = new Date().getFullYear();
 
 const defaultOptions = {
     type: 'payroll',
-    incomeType: 'gross',
+    incomeType: 'gross', // or 'net'
     taxYear: (currentYear - 1)  + '_' + currentYear,
     period: 'monthly',
     fromCurrency: undefined,
