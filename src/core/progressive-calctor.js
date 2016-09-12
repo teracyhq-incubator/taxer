@@ -70,9 +70,8 @@ export class ProgressiveCalctor {
         return Object.assign({}, this._brackets);
     }
 
-    calc(taxableIncome) {
-        //TODO(hoatle): taxableIncome should be a number
-        let taxInfo = {
+    _calcFromGross(taxableIncome, options) {
+       let taxInfo = {
             taxableIncome: taxableIncome
         };
 
@@ -81,27 +80,22 @@ export class ProgressiveCalctor {
                 return acc;
             }
             const [rate, [, currEnd = Infinity]] = curr;
+            let currTaxableIncome, currTaxAmount;
             if (taxableIncome > currEnd) {
-                const currTaxableIncome = financialRound(currEnd - acc.calculatedAmount);
-                const currTaxAmount = financialRound(currTaxableIncome * rate);
-                acc.taxAmount += currTaxAmount;
-                acc.calculatedAmount += currTaxableIncome;
-                acc.taxBand.push({
-                    taxRate: +rate,
-                    taxableIncome: currTaxableIncome,
-                    taxAmount: currTaxAmount
-                });
+                currTaxableIncome = financialRound(currEnd - acc.calculatedAmount);
+                currTaxAmount = financialRound(currTaxableIncome * rate);
             } else {
-                const currTaxableIncome = financialRound(taxableIncome - acc.calculatedAmount);
-                const currTaxAmount = financialRound(currTaxableIncome * rate);
-                acc.taxAmount += currTaxAmount;
-                acc.calculatedAmount += currTaxableIncome;
-                acc.taxBand.push({
-                    taxRate: +rate,
-                    taxableIncome: currTaxableIncome,
-                    taxAmount: currTaxAmount
-                });
+                currTaxableIncome = financialRound(taxableIncome - acc.calculatedAmount);
+                currTaxAmount = financialRound(currTaxableIncome * rate);
             }
+
+            acc.taxAmount += currTaxAmount;
+            acc.calculatedAmount += currTaxableIncome;
+            acc.taxBand.push({
+                taxRate: +rate,
+                taxableIncome: currTaxableIncome,
+                taxAmount: currTaxAmount
+            });
             return acc;
         }, {
             taxAmount: 0,
@@ -115,5 +109,75 @@ export class ProgressiveCalctor {
         Object.assign(taxInfo, pick(result, 'taxAmount', 'taxBand'));
 
         return taxInfo;
+    }
+
+    _calcFromNet(netIncome, options) {
+        const result = reduce(objectEntries(this.brackets), (acc, curr) => {
+            const [rate, [, currEnd = Infinity]] = curr;
+
+            if (acc.netIncome === netIncome) {
+                return acc;
+            }
+
+            let currTaxableIncome, currTaxAmount, currNetIncome;
+            
+            if (Number.isFinite(currEnd)) {
+                currTaxableIncome = financialRound(currEnd - acc.calculatedAmount);
+                currTaxAmount = financialRound(currTaxableIncome * rate);
+                currNetIncome = currTaxableIncome - currTaxAmount;
+                const nextNetIncome = acc.netIncome + (currTaxableIncome - currTaxAmount);
+                if (nextNetIncome > netIncome) {
+                    //console.log('currNetIncome', currNetIncome);
+                    currNetIncome = netIncome - acc.netIncome;
+                    currTaxableIncome = financialRound(currNetIncome / (1 - rate));
+                    currTaxAmount = financialRound(currTaxableIncome * rate);
+                }
+
+            } else {
+                //Infinity
+                currNetIncome = netIncome - acc.netIncome;
+                // netIncome = taxableIncome - taxAmount
+                // taxAmount = taxableIncome * rate
+                // netIncome = taxableIncome - rate * taxableIncome
+                // netIncome = (1 - rate) * taxableIncome
+                // taxableIncome = netIncome / (1 - rate)
+                currTaxableIncome = financialRound(currNetIncome / (1 - rate));
+                currTaxAmount = financialRound(currTaxableIncome * rate);
+            }
+
+            acc.taxAmount += currTaxAmount;
+            acc.calculatedAmount += currTaxableIncome;
+            acc.netIncome += currNetIncome;
+
+            acc.taxBand.push({
+                taxRate: +rate,
+                taxableIncome: currTaxableIncome,
+                taxAmount: currTaxAmount
+            });
+
+            return acc;
+
+        }, {
+            taxAmount: 0,
+            netIncome: 0,
+            calculatedAmount: 0,
+            taxBand: []
+        });
+
+        let taxInfo = {
+            taxableIncome: result.netIncome + result.taxAmount,
+            netIncome: netIncome
+        };
+        Object.assign(taxInfo, pick(result, 'taxAmount', 'taxBand'));
+        return taxInfo;
+    }
+
+    calc(income, options={incomeType: 'gross'}) {
+        //TODO(hoatle): income should be a number
+        if (options.incomeType === 'net') {
+            return this._calcFromNet(income, options);
+        } else {
+            return this._calcFromGross(income, options);
+        }
     }
 }
