@@ -117,3 +117,13 @@ export function financialRound(number) {
     return Math.round(number * 100) / 100;
 }
 
+/**
+ * Checks if fn is a function or not.
+ *
+ * @param fn the value to be checked
+ * @return boolean
+ */
+export function isFunction(fn) {
+    return typeof fn === 'function';
+}
+

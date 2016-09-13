@@ -3,6 +3,27 @@ import * as assert from 'assert';
 import { Taxer } from '../../src/core/taxer';
 
 describe('Taxer', () => {
+
+    describe('#validate', () => {
+        it('should throw error when Calctorable is not implemented', () => {
+            class MyCalctor {
+                isMatched() {
+                    return true;
+                }
+
+                exec() {
+                    return void 0;
+                }
+            }
+
+            const taxer = new Taxer();
+            assert.throws(() => {
+                taxer.validate(new MyCalctor());
+            }, /calctor must implement Calctorable interface/);
+        });
+
+    });
+
     describe('#calc', () => {
         it('should be function', () => {
             assert.ok(typeof Taxer.prototype.calc === 'function');
@@ -18,6 +39,10 @@ describe('Taxer', () => {
 
                 calc(taxableIncome, options) {
                     return { taxableIncome: taxableIncome };
+                }
+
+                exec() {
+                    return void 0;
                 }
             }
 
@@ -38,6 +63,10 @@ describe('Taxer', () => {
 
                 calc(taxableIncome, options) {
                     return {taxableIncome: taxableIncome};
+                }
+
+                exec() {
+                    return void 0;
                 }
             }
 
