@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-import { Middleware } from '../../src/core/middleware';
+import Middleware from '../../src/core/middleware';
 
 
 describe('Middleware', () => {
@@ -19,6 +19,7 @@ describe('Middleware', () => {
     it('it should throw error when exec method is missing', () => {
       const middleware = new Middleware();
       class MyExector {
+        // eslint-disable-next-line class-methods-use-this
         isMatched() {
           return true;
         }
@@ -31,6 +32,7 @@ describe('Middleware', () => {
     it('should throw error when isMatched method is missing', () => {
       const middleware = new Middleware();
       class MyExector {
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
@@ -46,10 +48,11 @@ describe('Middleware', () => {
       const middleware = new Middleware();
 
       class MyExector {
+        // eslint-disable-next-line class-methods-use-this
         isMatched() {
           return true;
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
@@ -66,10 +69,11 @@ describe('Middleware', () => {
       const middleware = new Middleware();
 
       class MyExector {
+        // eslint-disable-next-line class-methods-use-this
         isMatched() {
           return true;
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
@@ -90,20 +94,22 @@ describe('Middleware', () => {
   describe('#findMatchedExector', () => {
     it('should return a matched executor', () => {
       class MyExecutor1 {
+        // eslint-disable-next-line class-methods-use-this
         isMatched(...args) {
           return args[0] === 'my1';
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
       }
 
       class MyExecutor2 {
+        // eslint-disable-next-line class-methods-use-this
         isMatched(name) {
           return name === 'my2';
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
@@ -121,20 +127,22 @@ describe('Middleware', () => {
 
     it('should not return a matched executor', () => {
       class MyExecutor1 {
+        // eslint-disable-next-line class-methods-use-this
         isMatched(...args) {
           return args[0] === 'my1';
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
       }
 
       class MyExecutor2 {
+        // eslint-disable-next-line class-methods-use-this
         isMatched(name) {
           return name === 'my2';
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
@@ -164,10 +172,11 @@ describe('Middleware', () => {
       const middleware = new Middleware();
 
       class MyExector {
+        // eslint-disable-next-line class-methods-use-this
         isMatched(...args) {
           return args[0] === 'hi';
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return 'hello';
         }
@@ -185,10 +194,11 @@ describe('Middleware', () => {
       const middleware = new Middleware();
 
       class MyExector {
+        // eslint-disable-next-line class-methods-use-this
         isMatched() {
           return false;
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return 'hello';
         }

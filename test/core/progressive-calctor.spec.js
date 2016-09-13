@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-import { ProgressiveCalctor } from '../../src/core/progressive-calctor';
+import ProgressiveCalctor from '../../src/core/progressive-calctor';
 
 describe('ProgressiveCacltor', () => {
   it('should be a class', () => {

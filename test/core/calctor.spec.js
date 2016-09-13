@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 
-import { Exector } from '../../src/core/exector';
-import { Calctor } from '../../src/core/calctor';
+import Exector from '../../src/core/exector';
+import Calctor from '../../src/core/calctor';
 
 
 describe('Calctor', () => {
@@ -18,6 +18,7 @@ describe('Calctor', () => {
 
   it('should have defaultOptions', () => {
     class MyCalctor extends Calctor {
+      // eslint-disable-next-line class-methods-use-this
       get currency() {
         return 'MY';
       }
@@ -64,14 +65,15 @@ describe('Calctor', () => {
 
     it('should invoke isCombinationMatched', () => {
       class MyCalctor extends Calctor {
+        // eslint-disable-next-line class-methods-use-this
         isIncomeMatched() {
           return false;
         }
-
+        // eslint-disable-next-line class-methods-use-this
         isOptionsMatched() {
           return false;
         }
-
+        // eslint-disable-next-line class-methods-use-this
         isCombinationMatched() {
           return true;
         }
@@ -152,6 +154,7 @@ describe('Calctor', () => {
 
     it('should throw invalid taxYear', () => {
       class MyCalctor extends Calctor {
+        // eslint-disable-next-line class-methods-use-this
         get currency() {
           return 'MY';
         }
@@ -175,6 +178,7 @@ describe('Calctor', () => {
 
     it('should throw not implemented exception for calc', () => {
       class MyCalctor extends Calctor {
+        // eslint-disable-next-line class-methods-use-this
         currency() {
           return 'MY';
         }

@@ -1,7 +1,7 @@
 import { isFunction } from './util';
 
 
-export class Middleware {
+export default class {
 
   constructor() {
     this.slack = [];
@@ -11,11 +11,13 @@ export class Middleware {
     return Array.from(this.slack);
   }
 
+  /* eslint-disable class-methods-use-this */
   validate(exector) {
     if (!isFunction(exector.isMatched) || !isFunction(exector.exec)) {
       throw new Error('exector must implement Exectorable interface');
     }
   }
+  /* eslint-enable */
 
   // TODO(hoatle): add priority option?
   // TODO: add async support (like koa.js)? if so, maybe better to use koa.js?

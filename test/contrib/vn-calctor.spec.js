@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-import { VnCalctor } from '../../src/contrib/vn-calctor';
+import VnCalctor from '../../src/contrib/vn-calctor';
 
 
 describe('VnCalctor', () => {

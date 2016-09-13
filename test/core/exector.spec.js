@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-import { Exector } from '../../src/core/exector';
+import Exector from '../../src/core/exector';
 
 
 describe('Exector', () => {

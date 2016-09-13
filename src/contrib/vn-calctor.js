@@ -30,8 +30,9 @@ const monthlyPayrollProgressiveCalctor = new ProgressiveCalctor(monthlyPayrollBr
 const yearlyPayrollProgressiveCalctor = new ProgressiveCalctor(yearlyPayrollBrackets);
 
 
-export class VnCalctor extends Calctor {
+export default class VnCalctor extends Calctor {
 
+  /* eslint-disable class-methods-use-this */
   get currency() {
     return 'VND';
   }
@@ -56,5 +57,6 @@ export class VnCalctor extends Calctor {
   doYearlyNetPayrollCalc(income, options) {
     return yearlyPayrollProgressiveCalctor.calc(income, options);
   }
+  /* eslint-enable */
 
 }

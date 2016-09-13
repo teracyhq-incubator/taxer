@@ -40,10 +40,11 @@ import { objectEntries, map, reduce, pick,
  * }
  *
  */
-export class ProgressiveCalctor {
+export default class ProgressiveCalctor {
 
   constructor(brackets) {
     ProgressiveCalctor.validate(brackets);
+    // eslint-disable-next-line no-underscore-dangle
     this._brackets = brackets;
   }
 
@@ -65,14 +66,15 @@ export class ProgressiveCalctor {
 
   // immutable
   get brackets() {
+    // eslint-disable-next-line no-underscore-dangle
     return Object.assign({}, this._brackets);
   }
 
-  _calcFromGross(taxableIncome/* , options */) {
+  calcFromGross(taxableIncome/* , options */) {
     const taxInfo = {
       taxableIncome,
     };
-
+    // eslint-disable-next-line no-underscore-dangle
     const result = reduce(objectEntries(this._brackets), (acc, curr) => {
       const currAcc = acc;
       if (taxableIncome === currAcc.calculatedAmount) {
@@ -111,7 +113,7 @@ export class ProgressiveCalctor {
     return taxInfo;
   }
 
-  _calcFromNet(netIncome/* , options */) {
+  calcFromNet(netIncome/* , options */) {
     const result = reduce(objectEntries(this.brackets), (acc, curr) => {
       const currAcc = acc;
       const [rate, [, currEnd = Infinity]] = curr;
@@ -176,8 +178,8 @@ export class ProgressiveCalctor {
   calc(income, options = { incomeType: 'gross' }) {
     // TODO(hoatle): income should be a number
     if (options.incomeType === 'net') {
-      return this._calcFromNet(income, options);
+      return this.calcFromNet(income, options);
     }
-    return this._calcFromGross(income, options);
+    return this.calcFromGross(income, options);
   }
 }

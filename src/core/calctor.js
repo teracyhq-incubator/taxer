@@ -1,6 +1,6 @@
 import camelCase from 'camel-case';
 
-import { Exector } from './exector';
+import Exector from './exector';
 import { filter, pick, isFunction } from './util';
 
 const currentYear = new Date().getFullYear();
@@ -40,6 +40,7 @@ function getMainTaxYear(options) {
   return taxYear;
 }
 
+/* eslint-disable class-methods-use-this */
 /**
  * The base class for easier implementation of Calctorable interface to be used with the @{Taxer}
  * class.
@@ -68,7 +69,7 @@ function getMainTaxYear(options) {
  *   calc(income, options): TaxInfo
  * }
  */
-export class Calctor extends Exector {
+export default class Calctor extends Exector {
 
 
   get currency() {
@@ -199,3 +200,4 @@ export class Calctor extends Exector {
   }
 
 }
+/* eslint-enable */

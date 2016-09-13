@@ -1,7 +1,7 @@
-import { Middleware } from './middleware';
+import Middleware from './middleware';
 import { isFunction } from './util';
 
-export class Taxer extends Middleware {
+export default class Taxer extends Middleware {
 
   validate(calctor) {
     super.validate(calctor);

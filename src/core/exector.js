@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /**
  * The executor class to be used with the @{Middleware}} class.
  * This class implements Exectorable interface:
@@ -8,7 +9,7 @@
  * }
  *
  */
-export class Exector {
+export default class Exector {
 
   /**
    * isMatching to be hooked up to the middleware
@@ -26,3 +27,4 @@ export class Exector {
     return undefined;
   }
 }
+/* eslint-enable */

@@ -214,12 +214,17 @@ describe('util', () => {
       assert.ok(isFunction(() => {}));
 
       class MyClass {
-        myMethod() {
+        static myMethod() {
           return true;
+        }
+
+        my2ndMethod() {
+          return this;
         }
       }
       assert.ok(isFunction(MyClass));
-      assert.ok(isFunction(MyClass.prototype.myMethod));
+      assert.ok(isFunction(MyClass.myMethod));
+      assert.ok(isFunction(new MyClass().my2ndMethod));
     });
 
     it('should return false', () => {
