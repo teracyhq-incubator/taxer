@@ -18,14 +18,44 @@ describe('Middleware', () => {
 
     });
 
+    describe('#validate', () => {
+        it('it should throw error when exec method is missing', () => {
+            const middleware = new Middleware();
+            class MyExector {
+                isMatched() {
+                    return true;
+                }
+            }
+            assert.throws(() => {
+                middleware.validate(new MyExector());
+            }, /exector must implement Exectorable interface/);
+        });
 
+        it('should throw error when isMatched method is missing', () => {
+            const middleware = new Middleware();
+            class MyExector {
+                exec() {
+                    return void 0;
+                }
+            }
+            assert.throws(() => {
+                middleware.validate(new MyExector());
+            }, /exector must implement Exectorable interface/);
+        });
+    });
 
     describe('#use', () => {
         it('should have 1 used executor in stack', () => {
             const middleware = new Middleware();
       
             class MyExector {
+                isMatched() {
+                    return true;
+                }
 
+                exec() {
+                    return void 0;
+                }
             }
 
             const myExector = new MyExector();
@@ -39,7 +69,13 @@ describe('Middleware', () => {
             const middleware = new Middleware();
 
             class MyExector {
+                isMatched() {
+                    return true;
+                }
 
+                exec() {
+                    return void 0;
+                }
             }
 
             const myExector = new MyExector();
@@ -60,11 +96,19 @@ describe('Middleware', () => {
                 isMatched() {
                     return arguments[0] === 'my1';
                 }
+
+                exec() {
+                    return void 0;
+                }
             }
 
             class MyExecutor2 {
                 isMatched(name) {
                     return name === 'my2';
+                }
+
+                exec() {
+                    return void 0;
                 }
             }
 
@@ -83,11 +127,19 @@ describe('Middleware', () => {
                 isMatched() {
                     return arguments[0] === 'my1';
                 }
+
+                exec() {
+                    return void 0;
+                }
             }
 
             class MyExecutor2 {
                 isMatched(name) {
                     return name === 'my2';
+                }
+
+                exec() {
+                    return void 0;
                 }
             }
 

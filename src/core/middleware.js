@@ -1,3 +1,5 @@
+import { isFunction } from './util';
+
 
 export class Middleware {
 
@@ -9,10 +11,17 @@ export class Middleware {
         return Array.from(this._stack);
     }
 
+    validate(exector) {
+        if (!isFunction(exector.isMatched) || !isFunction(exector.exec)) {
+            throw new Error('exector must implement Exectorable interface');
+        }
+    }
+
     //TODO(hoatle): add priority option?
     //TODO: add async support (like koa.js)? if so, maybe better to use koa.js?
     //TODO(hoatle): make sure it's executor (isMatched + exec methods available)
     use(exector) {
+        this.validate(exector);
         if (this._isUsed(exector)) {
             throw `${exector.constructor.name} is already in use`;
         }

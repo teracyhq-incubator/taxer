@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 
 import { objectEntries, reversedObjectEntries, map, reduce, filter,
-         pick, financialRound } from '../../src/core/util';
+         pick, financialRound, isFunction } from '../../src/core/util';
 
 
 describe('util', () => {
@@ -214,5 +214,24 @@ describe('util', () => {
         assert.equal(financialRound(0.299), 0.3);
         assert.equal(financialRound(0.1 + 0.2), 0.3);
         assert.equal(financialRound(0.22999), 0.23);
+    });
+
+    describe('#isFunction', () => {
+        it('should return true', () => {
+            assert.ok(isFunction(function () {}));
+            assert.ok(isFunction(() => {}));
+
+            class MyClass {
+                myMethod() {
+                    return true;
+                }
+            }
+            assert.ok(isFunction(MyClass));
+            assert.ok(isFunction(MyClass.prototype.myMethod));
+        });
+
+        it('should return false', () => {
+            assert.equal(isFunction('hello'), false);
+        });
     });
 });

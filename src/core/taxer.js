@@ -1,7 +1,14 @@
 import { Middleware } from './middleware';
+import { isFunction } from './util';
 
-//TODO(hoatle): make sure it's calctor (calc methods available)
 export class Taxer extends Middleware {
+
+    validate(calctor) {
+        super.validate(calctor);
+        if (!isFunction(calctor.calc)) {
+            throw new Error('calctor must implement Calctorable interface');
+        }
+    }
 
     calc(countryCode, income, options) {
         const matchedCalctor = this.findMatchedExector(...arguments);
