@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-import { SgCalctor } from '../../src/contrib/sg-calctor';
+import SgCalctor from '../../src/contrib/sg-calctor';
 
 
 describe('SgCalctor', () => {

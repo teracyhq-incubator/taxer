@@ -66,15 +66,18 @@ const yearlyPayrollProgressiveCalctorFrom2017 =
   new ProgressiveCalctor(yearlyPayrollBracketsFrom2017);
 
 
-export class SgCalctor extends Calctor {
-
+export default class SgCalctor extends Calctor {
+  /* eslint-disable class-methods-use-this */
   get currency() {
     return 'SGD';
   }
+  /* eslint-enable */
 
+  /* eslint-disable class-methods-use-this */
   get supportedCountryCodes() {
     return ['sg', 'sgp', 702, 'singapore'];
   }
+  /* eslint-enable */
 
   doMonthlyGrossPayrollCalc(income, options) {
     const mainTaxYear = this.options.mainTaxYear;

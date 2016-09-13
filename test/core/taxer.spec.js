@@ -1,15 +1,16 @@
 import * as assert from 'assert';
 
-import { Taxer } from '../../src/core/taxer';
+import Taxer from '../../src/core/taxer';
 
 describe('Taxer', () => {
   describe('#validate', () => {
     it('should throw error when Calctorable is not implemented', () => {
       class MyCalctor {
+        // eslint-disable-next-line class-methods-use-this
         isMatched() {
           return true;
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
@@ -31,14 +32,15 @@ describe('Taxer', () => {
       const taxer = new Taxer();
 
       class MyTaxer {
+        // eslint-disable-next-line class-methods-use-this
         isMatched(countryCode) {
           return countryCode === 'my';
         }
-
+        // eslint-disable-next-line class-methods-use-this
         calc(taxableIncome/* , options */) {
           return { taxableIncome };
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }
@@ -55,14 +57,15 @@ describe('Taxer', () => {
       const taxer = new Taxer();
 
       class MyTaxer {
+        // eslint-disable-next-line class-methods-use-this
         isMatched(countryCode) {
           return countryCode === 'my';
         }
-
+        // eslint-disable-next-line class-methods-use-this
         calc(taxableIncome/* , options */) {
           return { taxableIncome };
         }
-
+        // eslint-disable-next-line class-methods-use-this
         exec() {
           return undefined;
         }

@@ -1,2 +1,2 @@
-export * from './vn-calctor';
-export * from './sg-calctor';
+export { default as VnCalctor } from './vn-calctor';
+export { default as SgCalctor } from './sg-calctor';
