@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+[0.1.1][] (2016-09-13)
+----------------------
+to publish v0.1.0 as when unpublished to npm, it's not possible to republish: npm/npm#9266
+
+
 [0.1.0][] (2016-09-13)
 ----------------------
 
@@ -15,3 +20,4 @@ The first milestone: plugin architecture + some core plugins + unit tests + cove
     + should have docker-compose support #8
 
 [0.1.0]: https://github.com/teracyhq/taxer/milestone/1?closed=1
+[0.1.1]: https://github.com/teracyhq/taxer/milestone/3
