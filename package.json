@@ -4,7 +4,7 @@
   "description": "universal tax calculator javascript library to calculate all kinds of taxes through out the world",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint src/",
+    "lint": "eslint src/ test/",
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
     "test": "babel-node ./node_modules/.bin/_mocha",

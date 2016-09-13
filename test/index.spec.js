@@ -3,20 +3,20 @@ import * as assert from 'assert';
 import { Taxer, defaultTaxer } from '../src';
 
 
-describe('index', function () {
-    it('should have Taxer class', function () {
-        assert.ok(typeof Taxer === 'function');
+describe('index', () => {
+  it('should have Taxer class', () => {
+    assert.ok(typeof Taxer === 'function');
+  });
+
+
+  describe('defaultTaxer', () => {
+    it('should be a function', () => {
+      assert.ok(typeof defaultTaxer === 'function');
     });
 
-
-    describe('defaultTaxer', function () {
-        it('should be a function', function () {
-            assert.ok(typeof defaultTaxer === 'function');
-        });
-
-        it('should be Taxer instance', function () {
-            const taxer = defaultTaxer();
-            assert.ok(taxer instanceof Taxer);
-        });
+    it('should be Taxer instance', () => {
+      const taxer = defaultTaxer();
+      assert.ok(taxer instanceof Taxer);
     });
-}); 
+  });
+});
