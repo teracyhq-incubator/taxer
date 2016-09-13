@@ -5,11 +5,11 @@
  * @return a generator
  */
 export function* objectEntries(obj) {
-    let propKeys = Reflect.ownKeys(obj);
+  const propKeys = Reflect.ownKeys(obj);
 
-    for (let propKey of propKeys) {
-        yield [propKey, obj[propKey]];
-    }
+  for (const propKey of propKeys) {
+    yield [propKey, obj[propKey]];
+  }
 }
 
 /**
@@ -19,11 +19,11 @@ export function* objectEntries(obj) {
  * @return a generator
  */
 export function* reversedObjectEntries(obj) {
-    let propKeys = Reflect.ownKeys(obj).reverse();
+  const propKeys = Reflect.ownKeys(obj).reverse();
 
-    for (let propKey of propKeys) {
-        yield [propKey, obj[propKey]];
-    }
+  for (const propKey of propKeys) {
+    yield [propKey, obj[propKey]];
+  }
 }
 
 /**
@@ -34,11 +34,11 @@ export function* reversedObjectEntries(obj) {
  * @return an array
  */
 export function map(iterable, mapper) {
-    let result = [];
-    for (let x of iterable) {
-        result.push(mapper(x));
-    }
-    return result;
+  const result = [];
+  for (const x of iterable) {
+    result.push(mapper(x));
+  }
+  return result;
 }
 
 /**
@@ -50,16 +50,16 @@ export function map(iterable, mapper) {
  * @return an array
  */
 export function reduce(iterable, combiner, initialValue) {
-    let accumulatedValue;
-    if (initialValue) {
-        accumulatedValue = initialValue;
-    } else {
-        accumulatedValue = iterable.next().value;
-    }
-    for (let currentValue of iterable) {
-        accumulatedValue = combiner(accumulatedValue, currentValue);
-    }
-    return accumulatedValue;
+  let accumulatedValue;
+  if (initialValue) {
+    accumulatedValue = initialValue;
+  } else {
+    accumulatedValue = iterable.next().value;
+  }
+  for (const currentValue of iterable) {
+    accumulatedValue = combiner(accumulatedValue, currentValue);
+  }
+  return accumulatedValue;
 }
 
 
@@ -70,23 +70,23 @@ export function reduce(iterable, combiner, initialValue) {
  * @param predicate
  * @return an array
  */
-export function filter(iterable, predicate, pushResultOnBreak=true) {
-    let result = [];
-    for (let x of iterable) {
-        try {
-            if (predicate(x)) {
-                result.push(x);
-            }
-        } catch (ex) {
-            //allow predicate breaking the loop
-            if (pushResultOnBreak) {
-                result.push(x);
-            }
-            break;
-        }
+export function filter(iterable, predicate, pushResultOnBreak = true) {
+  const result = [];
+  for (const x of iterable) {
+    try {
+      if (predicate(x)) {
+        result.push(x);
+      }
+    } catch (ex) {
+      // allow predicate breaking the loop
+      if (pushResultOnBreak) {
+        result.push(x);
+      }
+      break;
     }
+  }
 
-    return result;
+  return result;
 }
 
 /**
@@ -97,14 +97,14 @@ export function filter(iterable, predicate, pushResultOnBreak=true) {
  * @return new object
  */
 export function pick(obj, ...fields) {
-    let has = p => obj.hasOwnProperty(p),
-        result = {};
-    for (let p of fields) {
-        if (has(p)) {
-            Object.assign(result, {[p]: obj[p]});
-        }
+  const has = p => ({}.hasOwnProperty.call(obj, p));
+  const result = {};
+  for (const p of fields) {
+    if (has(p)) {
+      Object.assign(result, { [p]: obj[p] });
     }
-    return result;
+  }
+  return result;
 }
 
 /**
@@ -114,7 +114,7 @@ export function pick(obj, ...fields) {
  * 0.22999 => 0.23
  */
 export function financialRound(number) {
-    return Math.round(number * 100) / 100;
+  return Math.round(number * 100) / 100;
 }
 
 /**
@@ -124,6 +124,6 @@ export function financialRound(number) {
  * @return boolean
  */
 export function isFunction(fn) {
-    return typeof fn === 'function';
+  return typeof fn === 'function';
 }
 
