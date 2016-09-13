@@ -1,7 +1,7 @@
 {
   "name": "taxer",
   "version": "0.2.0-SNAPSHOT",
-  "description": "universal tax calculator for all",
+  "description": "universal tax calculator javascript library to calculate all kinds of taxes through out the world",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src/",
