@@ -2,6 +2,7 @@ taxer
 =====
 [![Build Status](https://travis-ci.org/teracyhq/taxer.svg?branch=develop)](https://travis-ci.org/teracyhq/taxer)
 [![Coverage Status](https://coveralls.io/repos/github/teracyhq/taxer/badge.svg?branch=develop)](https://coveralls.io/github/teracyhq/taxer?branch=develop)
+[![Code Climate](https://codeclimate.com/github/teracyhq/taxer/badges/gpa.svg)](https://codeclimate.com/github/teracyhq/taxer)
 
 
 universal tax calculator javascript library to calculate all kinds of taxes through out the world.
