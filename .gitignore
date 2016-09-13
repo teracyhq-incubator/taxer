@@ -10,3 +10,4 @@ coverage
 .bash_history
 .v8flags*
 npm-debug.log
+.npm
