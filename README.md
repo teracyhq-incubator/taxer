@@ -30,23 +30,63 @@ For example:
 
 ```js
 
-export class VnCalctor {
-    constructor() {
-    }
+export default class VnCalctor {
+  constructor() {
+  }
 
-    calc(taxableIncome, options={}) {
-        return {
-            taxableIncome: taxableIncome
-        }
+  calc(taxableIncome, options={}) {
+    return {
+      taxableIncome: taxableIncome
     }
+  }
 
-    isMatched(countryCode, income, options) {
-        if (typeof countryCode === 'string') {
-            countryCode = countryCode.toLowerCase();
-        }
-        return ['vn', 'vnm', 704, 'vietnam', 'viet nam'].indexOf(countryCode) > -1;
+  isMatched(countryCode, income, options) {
+    if (typeof countryCode === 'string') {
+      countryCode = countryCode.toLowerCase();
     }
+    return ['vn', 'vnm', 704, 'vietnam', 'viet nam'].indexOf(countryCode) > -1;
+  }
+
+  // required by exector under the hood, usually ignored by calctors
+  exec() {
+    return undefined;
+  }
 }
+```
+
+For easier implementation, we should extend the base class Calctor, as the following:
+
+```js
+
+import { Calctor } from 'taxer/core';
+
+
+export default class VnCalctor extends Calctor {
+  get currency() {
+    return 'VND';
+  }
+
+  get supportedCountryCodes() {
+    return ['vn', 'vnm', 704, 'vietnam', 'viet nam'];
+  }
+
+  doMonthlyGrossPayrollCalc(income, options) {
+    return monthlyPayrollProgressiveCalctor.calc(income, options);
+  }
+
+  doYearlyGrossPayrollCalc(income, options) {
+    return yearlyPayrollProgressiveCalctor.calc(income, options);
+  }
+
+  doMonthlyNetPayrollCalc(income, options) {
+    return monthlyPayrollProgressiveCalctor.calc(income, options);
+  }
+
+  doYearlyNetPayrollCalc(income, options) {
+    return yearlyPayrollProgressiveCalctor.calc(income, options);
+  }
+}
+
 ```
 
 That's how the library architecture works.
@@ -57,27 +97,27 @@ How to use
 
 1. Configure
 
-    1.1. From the default taxer with built-in tax calculators:
+  1.1. From the default taxer with built-in tax calculators:
 
-    ```
-    const taxer = defaultTaxer();
-    // add more custom calculator
-    taxer.use(new CustomCalctor(options));
-    ```
+  ```js
+  const taxer = defaultTaxer();
+  // add more custom calculator
+  taxer.use(new CustomCalctor(options));
+  ```
 
-    1.2. From scratch
+  1.2. From scratch
 
-    ```
-    const taxer = new Taxer();
-    taxer.use(VnCalctor());
-    taxer.use(UsaCalctor());
-    taxer.use(SgCalctor());
-    taxer.use(CustomCalctor(options));
-    ``` 
+  ```js
+  const taxer = new Taxer();
+  taxer.use(VnCalctor());
+  taxer.use(UsaCalctor());
+  taxer.use(SgCalctor());
+  taxer.use(CustomCalctor(options));
+  ```
 
 2. Use
 
-```
+```js
 const taxInfo = taxer.calc(countryCode, income, options);
 console.log(taxInfo);
 ```

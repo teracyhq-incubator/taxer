@@ -42,12 +42,12 @@ export default class VnCalctor extends Calctor {
   }
 
 
-  doMonthlyGrossPayrollCalc(income/* , options */) {
-    return monthlyPayrollProgressiveCalctor.calc(income);
+  doMonthlyGrossPayrollCalc(income, options) {
+    return monthlyPayrollProgressiveCalctor.calc(income, options);
   }
 
-  doYearlyGrossPayrollCalc(income/* , options */) {
-    return yearlyPayrollProgressiveCalctor.calc(income);
+  doYearlyGrossPayrollCalc(income, options) {
+    return yearlyPayrollProgressiveCalctor.calc(income, options);
   }
 
   doMonthlyNetPayrollCalc(income, options) {
