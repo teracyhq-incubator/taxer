@@ -58,7 +58,7 @@ For easier implementation, we should extend the base class Calctor, as the follo
 
 ```js
 
-import { Calctor } from 'taxer/core';
+import { Calctor } from 'taxer';
 
 
 export default class VnCalctor extends Calctor {
