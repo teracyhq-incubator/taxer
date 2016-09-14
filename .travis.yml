@@ -6,9 +6,8 @@ node_js:
 env:
   global:
   - COVERAGE_NODE_VERSION=4
-script: npm run lint && npm run test:cov
+script: npm run ci
 after_success:
-  - npm run lint # currently not enforce this yet
   - if [[ $TRAVIS_NODE_VERSION == $COVERAGE_NODE_VERSION ]]; then cat ./coverage/lcov.info |
     ./node_modules/coveralls/bin/coveralls.js; fi
 notifications:
