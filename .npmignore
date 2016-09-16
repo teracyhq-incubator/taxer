@@ -1,1 +1,7 @@
 src/
+coverage/
+*.iml
+test
+Dockerfile
+docker-compose.yml
+
